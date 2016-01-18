@@ -6,26 +6,26 @@
    Description: DF Robot pH Pro
 */
 
-// Third party Libraries
-#include "Print.h"
+// Libraries
+#include "Arduino.h"
 
+// Declarations
+#define phArrayLenth 60
+//pH meter Analog output to Arduino Analog Input 0
+#define phSensorPin A0
+//deviation compensate
+#define phOffset 0.00
 
-#define SensorPin A0            //pH meter Analog output to Arduino Analog Input 0
-#define Offset 0.00            //deviation compensate
-#define samplingInterval 20
-#define ArrayLenth  40    //times of collection
 
 class aero_ph
 {
   private:
-    int counter = 0;    
-    int pHArray[ArrayLenth];   
-    int pHArrayIndex = 0;
-    double avergearray(int* arr, int number);
-    Print* Serial;
+    int counter = 0;
+    int phArray[phArrayLenth];
+    int phArrayIndex = 0;
+    double phArrayAverage(int* arr, int arrayLength);
 
   public:
-    aero_ph(Print* _serial);    
     int holaPh();
     float getPh();
 };

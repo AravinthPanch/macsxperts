@@ -5,41 +5,34 @@
    Project: Macsxperts Aeroponics Vertical Farming
 */
 
-// Third party Libraries
+// Libraries
 #include <TimerOne.h>
 #include "Print.h"
-
-// Libraries
 #include "aero_ph.h"
 
-
 // Declarations
+int serial_baud_rate = 9600;
+// Initate timer to 1sec => 1000000 microsec interval
 long timer1_interval = 1000000;
-
-
+char str_header[] = "==== Macsxperts Aeroponics Vertical Farming ====";
+aero_ph ph_meter;
 
 // Setup
 void setup() {
   // Initate the serial connections
-  Serial.begin(9600);
+  Serial.begin(serial_baud_rate);
   if (Serial) {
-    Serial.println("==== Macsxperts Aeroponics Vertical Farming ====");
+    Serial.println(str_header);
   }
-
-  // Initate timer to 1sec => 1000000 microsec interval
-  Timer1.initialize(1000000);
-  Timer1.attachInterrupt(senseRoutine);
+  Timer1.initialize(timer1_interval);
+  Timer1.attachInterrupt(sensingRoutine);
 }
 
-
 // ISR
-aero_ph ph_meter(&Serial);
-
-void senseRoutine(void)
+void sensingRoutine(void)
 {
   Serial.println(ph_meter.getPh());
 }
-
 
 // Main Loop
 void loop() {

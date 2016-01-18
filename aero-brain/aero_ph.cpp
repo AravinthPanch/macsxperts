@@ -8,65 +8,37 @@
 
 #include "aero_ph.h"
 
-aero_ph::aero_ph(Print* _serial)
-{
-  aero_ph::Serial = _serial;
-}
-
 int aero_ph::holaPh() {
   counter++;
   return counter;
 }
 
+// Read analog values from sensor 40 times and calculate the phVoltage (5V) and pH value
 float aero_ph::getPh() {
-
-  static float pHValue, analogValue, voltage;
-  analogValue = 4.0;
-  for (int i = 0; i <= 40 ; i ++) {
-    pHArray[pHArrayIndex++]  = analogValue + 0.1;
+  static float phValue, phVoltage;
+  for (int i = 0; i < phArrayLenth ; i ++) {
+    phArray[phArrayIndex++]  = analogRead(phSensorPin);
   }
-  pHArrayIndex = 0;
-  voltage = avergearray(pHArray, ArrayLenth) * 5.0 / 1024;
-  pHValue = 3.5 * voltage + Offset;
-  return pHValue;
+  phArrayIndex = 0;
+  phVoltage = phArrayAverage(phArray, phArrayLenth) * 5.0 / 1024;
+  phValue = 3.5 * phVoltage + phOffset;
+  return phValue;
 }
 
 
-double aero_ph::avergearray(int* arr, int number) {
-  int i;
-  int max, min;
+// Calculate the average value of array
+double aero_ph::phArrayAverage(int* inputArray, int arrayLength) {
   double avg;
-  long amount = 0;
-  if (number <= 0) {
+  long total = 0;
+
+  if (arrayLength <= 0) {
     return 0;
   }
-  if (number < 5) { //less than 5, calculated directly statistics
-    for (i = 0; i < number; i++) {
-      amount += arr[i];
+  else {
+    for (int i = 0; i < arrayLength; i++) {
+      total += inputArray[i];
     }
-    avg = amount / number;
+    avg = total / arrayLength;
     return avg;
-  } else {
-    if (arr[0] < arr[1]) {
-      min = arr[0]; max = arr[1];
-    }
-    else {
-      min = arr[1]; max = arr[0];
-    }
-    for (i = 2; i < number; i++) {
-      if (arr[i] < min) {
-        amount += min;      //arr<min
-        min = arr[i];
-      } else {
-        if (arr[i] > max) {
-          amount += max;  //arr>max
-          max = arr[i];
-        } else {
-          amount += arr[i]; //min<=arr<=max
-        }
-      }//if
-    }//for
-    avg = (double)amount / (number - 2);
-  }//if
-  return avg;
+  }
 }
