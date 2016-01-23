@@ -9,13 +9,17 @@
 #include <TimerOne.h>
 #include "Print.h"
 #include "macs_ph.h"
+#include "macs_dose.h"
 
 // Declarations
 int serial_baud_rate = 9600;
 // Initate timer to 1sec => 1000000 microsec interval
-long timer1_interval = 1000000;
+long timer1_interval = 3000000;
 char str_header[] = "==== Macsxperts Aeroponics Vertical Farming ====";
 macs_ph ph_meter;
+macs_dose dosing_pump;
+bool pumpOneStatus = false;
+
 
 // Setup
 void setup() {
@@ -32,6 +36,20 @@ void setup() {
 void sensingRoutine(void)
 {
   Serial.println(ph_meter.getPh());
+  if (!pumpOneStatus) {
+    bool rv = dosing_pump.dosePumpOne();
+    if (rv) {
+      pumpOneStatus = true;
+    }
+  }
+  else {
+    bool rv = dosing_pump.stopPumpOne();
+    if (rv) {
+      pumpOneStatus = false;
+    }
+  }
+
+
 }
 
 // Main Loop
