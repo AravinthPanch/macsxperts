@@ -6,17 +6,18 @@
    Description: DF Robot pH Pro (SEN0169)
 */
 
-#include "aero_ph.h"
+#include "macs_ph.h"
 
-int aero_ph::holaPh() {
+int macs_ph::holaPh() {
   counter++;
   return counter;
 }
 
-// Read analog values from sensor 40 times and calculate the phVoltage (5V) and pH value
-float aero_ph::getPh() {
+// Read analog values from sensor and calculate the phVoltage (5V) and pH value
+float macs_ph::getPh() {
   static float phValue, phVoltage;
   for (int i = 0; i < phArrayLenth ; i ++) {
+    //    Serial.println(analogRead(phSensorPin));
     phArray[phArrayIndex++]  = analogRead(phSensorPin);
   }
   phArrayIndex = 0;
@@ -27,7 +28,7 @@ float aero_ph::getPh() {
 
 
 // Calculate the average value of array
-double aero_ph::phArrayAverage(int* inputArray, int arrayLength) {
+double macs_ph::phArrayAverage(int* inputArray, int arrayLength) {
   double avg;
   long total = 0;
 

@@ -17,7 +17,7 @@
 #define phOffset 0.00
 
 
-class aero_ph
+class macs_ph
 {
   private:
     int counter = 0;

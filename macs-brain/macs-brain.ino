@@ -8,14 +8,14 @@
 // Libraries
 #include <TimerOne.h>
 #include "Print.h"
-#include "aero_ph.h"
+#include "macs_ph.h"
 
 // Declarations
 int serial_baud_rate = 9600;
 // Initate timer to 1sec => 1000000 microsec interval
 long timer1_interval = 1000000;
 char str_header[] = "==== Macsxperts Aeroponics Vertical Farming ====";
-aero_ph ph_meter;
+macs_ph ph_meter;
 
 // Setup
 void setup() {
