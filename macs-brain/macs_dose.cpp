@@ -6,42 +6,49 @@
    Description: 12V DC Peristaltic Dosing Pump
 */
 
+// Libraries
 #include "macs_dose.h"
 
+
+// Constructor
 macs_dose::macs_dose() {
   pinMode(pumpOne12EnablePin, OUTPUT);
   pinMode(pumpOne1Apin, OUTPUT);
   pinMode(pumpOne2Apin, OUTPUT);
 }
 
-int macs_dose::holaDose() {
-  counter++;
-  return counter;
+// Return status of the pump
+bool macs_dose::getPumpOneStatus() {
+  return pumpOneStatus;
 }
 
-void macs_dose::enablePumpOne(bool setStatus) {
-  if (setStatus && pumpOne12EnablePinStatus == false) {
-    digitalWrite(pumpOne12EnablePin, HIGH);
-    pumpOne12EnablePinStatus = HIGH;
-  }
-  else if (pumpOne12EnablePinStatus && setStatus == false) {
-    digitalWrite(pumpOne12EnablePin, LOW);
-    pumpOne12EnablePinStatus = LOW;
-  }
-}
+// Drive pumpOne in clockwise direction: 1A -> L, 2A -> H
+String macs_dose::startPumpOne() {
+  digitalWrite(pumpOne12EnablePin, HIGH);
+  pumpOne12EnablePinStatus = true;
 
-bool macs_dose::stopPumpOne() {
-  Serial.println("Motor Stop");
-  enablePumpOne(true);
-  digitalWrite(pumpOne1Apin, HIGH);
-  digitalWrite(pumpOne2Apin, HIGH);
-  return true;
-}
-
-bool macs_dose::dosePumpOne() {
-  Serial.println("Turn right");
-  enablePumpOne(true);
   digitalWrite(pumpOne1Apin, LOW);
+  pumpOne1ApinStatus = false;
+
   digitalWrite(pumpOne2Apin, HIGH);
-  return true;
+  pumpOne2ApinStatus = true;
+
+  pumpOneStatus = true;
+  return "ON";
 }
+
+// Drive pumpOne to stop: 1A -> H, 2A -> H
+String macs_dose::stopPumpOne() {
+  digitalWrite(pumpOne12EnablePin, LOW);
+  pumpOne12EnablePinStatus = false;
+
+  digitalWrite(pumpOne1Apin, HIGH);
+  pumpOne1ApinStatus = true;
+
+  digitalWrite(pumpOne2Apin, HIGH);
+  pumpOne2ApinStatus = true;
+
+  pumpOneStatus = false;
+  return "OFF";
+}
+

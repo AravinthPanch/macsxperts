@@ -6,14 +6,9 @@
    Description: DF Robot pH Pro (SEN0169)
 */
 
+// Libraries
 #include "macs_ph.h"
 
-
-
-int macs_ph::holaPh() {
-  counter++;
-  return counter;
-}
 
 // Read analog values from sensor and calculate the phVoltage (5V) and pH value
 float macs_ph::getPh() {
@@ -27,7 +22,6 @@ float macs_ph::getPh() {
   phValue = 3.5 * phVoltage + phOffset;
   return phValue;
 }
-
 
 // Calculate the average value of array
 double macs_ph::phArrayAverage(int* inputArray, int arrayLength) {
@@ -45,3 +39,10 @@ double macs_ph::phArrayAverage(int* inputArray, int arrayLength) {
     return avg;
   }
 }
+
+// Test routine
+int macs_ph::holaPh() {
+  counter++;
+  return counter;
+}
+

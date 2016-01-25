@@ -17,17 +17,14 @@
 class macs_dose
 {
   private:
-    int counter = 10;
     bool pumpOne12EnablePinStatus = false;
     bool pumpOne1ApinStatus = false;
     bool pumpOne2ApinStatus = false;
-
-    void enablePumpOne(bool setStatus);
+    bool pumpOneStatus = false;
     
-
   public:
-    macs_dose();
-    int holaDose();
-    bool dosePumpOne();
-    bool stopPumpOne();
+    macs_dose();    
+    String startPumpOne();
+    String stopPumpOne();
+    bool getPumpOneStatus();
 };

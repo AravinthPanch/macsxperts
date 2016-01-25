@@ -16,7 +16,6 @@
 //deviation compensate
 #define phOffset 0.00
 
-
 class macs_ph
 {
   private:
