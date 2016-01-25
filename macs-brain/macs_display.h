@@ -10,12 +10,12 @@
 #include "Arduino.h"
 
 // Declarations
+#define lcdRSpin 29
+#define lcdENpin 27
 #define lcdD4pin 37
 #define lcdD5pin 35
 #define lcdD6pin 33
 #define lcdD7pin 31
-#define lcdRSpin 29
-#define lcdENpin 27
 
 class macs_display
 {

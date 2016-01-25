@@ -13,8 +13,7 @@
 // Read analog values from sensor and calculate the phVoltage (5V) and pH value
 float macs_ph::getPh() {
   static float phValue, phVoltage;
-  for (int i = 0; i < phArrayLenth ; i ++) {
-    //    Serial.println(analogRead(phSensorPin));
+  for (int i = 0; i < phArrayLenth ; i ++) {    
     phArray[phArrayIndex++]  = analogRead(phSensorPin);
   }
   phArrayIndex = 0;
