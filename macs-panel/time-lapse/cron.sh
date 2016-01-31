@@ -1,1 +1,1 @@
-* * * * * /home/aravinth/macs/big-brother/time-lapse.sh 2>&1
+*/15 * * * * /home/aravinth/macsxperts/macs-panel/time-lapse/time-lapse.sh 2>&1
