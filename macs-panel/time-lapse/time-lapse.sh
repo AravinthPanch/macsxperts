@@ -11,4 +11,4 @@
 
 DATE=$(date +"%Y-%m-%d-%H-%M")
 
-fswebcam -r 1280x720 /home/aravinth/macs/big-brother/time-lapse/$DATE.jpg
+fswebcam -r 1280x720 /home/aravinth/macsxperts/macs-panel/time-lapse/images/$DATE.jpg
