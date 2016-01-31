@@ -31,6 +31,8 @@ void macs_display::showDefaults() {
 
 // Show pH value in the lcd display
 void macs_display::showPh(float val) {
+  Serial.print(millis() / 1000.0, 3);
+  Serial.print(" : ");
   Serial.print("ph: ");
   Serial.println(val);
   lcd.setCursor(4, 0);
@@ -45,8 +47,8 @@ void macs_display::showEc(float val) {
 
 // Show given message in the lcd display
 void macs_display::showMsg(String msg) {
-  lcd.clear();
-  showDefaults();
+  lcd.setCursor(0, 1);
+  lcd.print("                ");
   lcd.setCursor(0, 1);
   lcd.print(msg);
 }

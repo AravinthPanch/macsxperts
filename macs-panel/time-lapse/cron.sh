@@ -1,0 +1,1 @@
+* * * * * /home/aravinth/macs/big-brother/time-lapse.sh 2>&1

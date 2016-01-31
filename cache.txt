@@ -1,4 +1,0 @@
-Serial.print("Index => ");
-    Serial.print(pHArrayIndex);
-    Serial.print("\n Value => ");
-    Serial.println(pHArray[pHArrayIndex-1]);

@@ -3,7 +3,7 @@
    Email: me@aravinth.info
    Date: 18/01/16.
    Project: Macsxperts Aeroponics Vertical Farming
-   Description: DF Robot pH Pro (SEN0169)
+   Description: DFRobot pH Pro (SEN0169)
 */
 
 // Libraries

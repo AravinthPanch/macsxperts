@@ -22,7 +22,7 @@
 
 const byte numReadings = 20;     //the number of sample times
 byte ECsensorPin = A1;  //EC Meter analog output,pin on analog 1
-byte DS18B20_Pin = 2; //DS18B20 signal, pin on digital 2
+byte DS18B20_Pin = 52; //DS18B20 signal, pin on digital 2
 unsigned int AnalogSampleInterval = 25, printInterval = 700, tempSampleInterval = 850; //analog sample interval;serial print interval;temperature sample interval
 unsigned int readings[numReadings];      // the readings from the analog input
 byte index = 0;                  // the index of the current reading
@@ -36,7 +36,7 @@ OneWire ds(DS18B20_Pin);  // on digital pin 2
 
 void setup() {
   // initialize serial communication with computer:
-  Serial.begin(115200);
+  Serial.begin(9600);
   // initialize all the readings to 0:
   for (byte thisReading = 0; thisReading < numReadings; thisReading++)
     readings[thisReading] = 0;
