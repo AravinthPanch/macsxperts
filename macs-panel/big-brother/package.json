@@ -1,0 +1,14 @@
+{
+  "name": "big-brother",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aravinth Panchadcharam",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
