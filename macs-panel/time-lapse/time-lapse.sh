@@ -11,8 +11,9 @@
 
 DATE=$(date +"%Y-%m-%d-%H-%M")
 
-ps aux | grep -i mjpg_streamer | grep -v grep | awk {'print $2'} | xargs kill -9
+ps aux | grep -i mjpg_streamer | grep -v grep | awk {'print $2'} | xargs kill -9;
 
-sleep 3
+sleep 5;
 
-fswebcam -r 1280x720 /home/aravinth/macsxperts/macs-panel/time-lapse/images/$DATE.jpg
+fswebcam -r 1280x720 /home/aravinth/macsxperts/macs-panel/time-lapse/images/$DATE.jpg;
+
