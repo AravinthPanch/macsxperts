@@ -15,13 +15,10 @@ app.use('/cam', express.static(__dirname));
 
 app.get('/', function (req, res) {
 
-	const ls = spawn('ls', ['-lh', '/usr']);
-	const ls = spawn('mjpg_streamer', ['-i', "/usr/lib/input_uvc.so -d /dev/video0 -y -r 640x480 -f 10", '-o',
-		"/usr/lib/output_http.so -p 8090"]);
+	const ls = spawn('mjpg_streamer', ['-i', "/usr/lib/input_uvc.so -d /dev/video0 -y -r 640x480 -f 10", '-o', "/usr/lib/output_http.so -p 8090"]);
 
 	ls.stdout.on('data', (data) => {
-		console.log("done");
-		res.redirect('/cam');
+		console.log(`stdout: ${data}`);
 	});
 
 	ls.stderr.on('data', (data) => {
@@ -31,6 +28,11 @@ app.get('/', function (req, res) {
 	ls.on('close', (code) => {
 		console.log(`mjpg process exited with code ${code}`);
 	});
+
+	setTimeout(function () {
+		res.redirect('/cam');
+	}, 2000);
+
 });
 
 app.listen(3000, function () {
