@@ -9,6 +9,7 @@
   "author": "Aravinth Panchadcharam",
   "license": "ISC",
   "dependencies": {
+    "basic-auth-connect": "^1.0.0",
     "express": "^4.13.4"
   }
 }

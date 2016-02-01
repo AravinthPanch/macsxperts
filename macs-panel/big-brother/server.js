@@ -8,8 +8,10 @@
 var express = require('express');
 var app = express();
 var path = require('path');
+var basicAuth = require('basic-auth-connect');
 const spawn = require('child_process').spawn;
 
+app.use(basicAuth('guest', 'macs@gp15'));
 
 app.use('/cam', express.static(__dirname));
 
