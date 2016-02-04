@@ -17,7 +17,7 @@
 // Declarations
 #define serial_baud_rate 9600
 // Timer1 interval 1sec => 1000000 microsec
-#define timer1_interval 3000000
+#define timer1_interval 1000000
 
 macs_display lcd_display;
 macs_ph ph_meter;
@@ -40,10 +40,10 @@ void setup() {
 // ISR
 void sensingRoutine(void)
 {
-  dosing_pump.pumpsTest();
-  lcd_display.showMsg("Testing Pumps");
+  // dosing_pump.pumpsTest();
+  // lcd_display.showMsg("Testing Pumps");
   lcd_display.showPh(ph_meter.getPh());
-  lcd_display.showEc(ec_meter.holaPh());
+  lcd_display.showEc(ec_meter.holaEc());
 }
 
 

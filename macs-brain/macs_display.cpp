@@ -33,7 +33,7 @@ void macs_display::showDefaults() {
 void macs_display::showPh(float val) {
   Serial.print(millis() / 1000.0, 3);
   Serial.print(" : ");
-  Serial.print("ph: ");
+  Serial.print("pH: ");
   Serial.println(val);
   lcd.setCursor(4, 0);
   lcd.print(val, 2);

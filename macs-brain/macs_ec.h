@@ -12,8 +12,8 @@
 class macs_ec
 {
   private:
-    int counter = 0;    
+    float counter = 0.01;    
 
   public:
-    int holaPh();    
+    int holaEc();    
 };

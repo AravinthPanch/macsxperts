@@ -11,8 +11,8 @@
 
 
 // Test routine
-int macs_ec::holaPh() {
-  counter++;
+int macs_ec::holaEc() {
+  counter += 0.01;
   return counter;
 }
 
