@@ -30,15 +30,15 @@ bool macs_dose::getPumpOneStatus() {
   return pumpOneStatus;
 }
 
-// Drive pumpOne in clockwise direction: 1A -> L, 2A -> H
+// Drive pumpOne in clockwise direction (Pump is connected as upper connector is Positive and lower connector is Negative): 1A -> H, 2A -> L
 String macs_dose::startPumpOne() {
   digitalWrite(pumpOne12EnablePin, HIGH);
   pumpOne12EnablePinStatus = true;
 
-  digitalWrite(pumpOne1Apin, LOW);
+  digitalWrite(pumpOne1Apin, HIGH);
   pumpOne1ApinStatus = false;
 
-  digitalWrite(pumpOne2Apin, HIGH);
+  digitalWrite(pumpOne2Apin, LOW);
   pumpOne2ApinStatus = true;
 
   pumpOneStatus = true;
@@ -65,15 +65,15 @@ bool macs_dose::getPumpTwoStatus() {
   return pumpTwoStatus;
 }
 
-// Drive pumpTwo in clockwise direction: 3A -> L, 4A -> H
+// Drive pumpTwo in clockwise direction (Pump is connected as upper connector is Positive and lower connector is Negative): 3A -> H, 4A -> L
 String macs_dose::startPumpTwo() {
   digitalWrite(pumpTwo34EnablePin, HIGH);
   pumpTwo34EnablePinStatus = true;
 
-  digitalWrite(pumpTwo3Apin, LOW);
+  digitalWrite(pumpTwo3Apin, HIGH);
   pumpTwo3ApinStatus = false;
 
-  digitalWrite(pumpTwo4Apin, HIGH);
+  digitalWrite(pumpTwo4Apin, LOW);
   pumpTwo4ApinStatus = true;
 
   pumpTwoStatus = true;
@@ -100,15 +100,15 @@ bool macs_dose::getPumpThreeStatus() {
   return pumpThreeStatus;
 }
 
-// Drive pumpThree in clockwise direction: 1A -> L, 2A -> H
+// Drive pumpThree in clockwise direction (Pump is connected as upper connector is Positive and lower connector is Negative): 1A -> H, 2A -> L
 String macs_dose::startPumpThree() {
   digitalWrite(pumpThree12EnablePin, HIGH);
   pumpThree12EnablePinStatus = true;
 
-  digitalWrite(pumpThree1Apin, LOW);
+  digitalWrite(pumpThree1Apin, HIGH);
   pumpThree1ApinStatus = false;
 
-  digitalWrite(pumpThree2Apin, HIGH);
+  digitalWrite(pumpThree2Apin, LOW);
   pumpThree2ApinStatus = true;
 
   pumpThreeStatus = true;

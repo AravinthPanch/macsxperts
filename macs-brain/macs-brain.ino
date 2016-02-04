@@ -43,7 +43,7 @@ void sensingRoutine(void)
   dosing_pump.pumpsTest();
   lcd_display.showMsg("Testing Pumps");
   lcd_display.showPh(ph_meter.getPh());
-  //  lcd_display.showMsg(String(ec_meter.holaPh()));
+  lcd_display.showEc(ec_meter.holaPh());
 }
 
 

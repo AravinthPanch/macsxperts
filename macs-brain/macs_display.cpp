@@ -41,6 +41,10 @@ void macs_display::showPh(float val) {
 
 // Show EC value in the lcd display
 void macs_display::showEc(float val) {
+  Serial.print(millis() / 1000.0, 3);
+  Serial.print(" : ");
+  Serial.print("EC: ");
+  Serial.println(val);
   lcd.setCursor(13, 0);
   lcd.print(val, 2);
 }
