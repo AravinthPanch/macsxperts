@@ -40,21 +40,8 @@ void setup() {
 // ISR
 void sensingRoutine(void)
 {
-  if (!dosing_pump.getPumpOneStatus()) {
-    Serial.print(millis() / 1000.0, 3);
-    Serial.print(" : ");
-    Serial.println("PumpOne is ON");
-    lcd_display.showMsg("PumpOne is ON");
-    dosing_pump.startPumpOne();
-  }
-  else {
-    Serial.print(millis() / 1000.0, 3);
-    Serial.print(" : ");
-    Serial.println("PumpOne is OFF");
-    lcd_display.showMsg("PumpOne is OFF");
-    dosing_pump.stopPumpOne();
-  }
-
+  dosing_pump.pumpsTest();
+  lcd_display.showMsg("Testing Pumps");
   lcd_display.showPh(ph_meter.getPh());
   //  lcd_display.showMsg(String(ec_meter.holaPh()));
 }

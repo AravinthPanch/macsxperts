@@ -10,9 +10,17 @@
 #include "Arduino.h"
 
 // Declarations
-#define pumpOne12EnablePin 28
-#define pumpOne1Apin 30
+#define pumpOne12EnablePin 34
+#define pumpOne1Apin 36
 #define pumpOne2Apin 38
+
+#define pumpTwo34EnablePin 40
+#define pumpTwo3Apin 42
+#define pumpTwo4Apin 32
+
+#define pumpThree12EnablePin 28
+#define pumpThree1Apin 30
+#define pumpThree2Apin 44
 
 class macs_dose
 {
@@ -21,10 +29,30 @@ class macs_dose
     bool pumpOne1ApinStatus = false;
     bool pumpOne2ApinStatus = false;
     bool pumpOneStatus = false;
-    
+
+    bool pumpTwo34EnablePinStatus = false;
+    bool pumpTwo3ApinStatus = false;
+    bool pumpTwo4ApinStatus = false;
+    bool pumpTwoStatus = false;
+
+    bool pumpThree12EnablePinStatus = false;
+    bool pumpThree1ApinStatus = false;
+    bool pumpThree2ApinStatus = false;
+    bool pumpThreeStatus = false;
+
   public:
-    macs_dose();    
+    macs_dose();
+    void pumpsTest();
+
     String startPumpOne();
     String stopPumpOne();
     bool getPumpOneStatus();
+
+    String startPumpTwo();
+    String stopPumpTwo();
+    bool getPumpTwoStatus();
+
+    String startPumpThree();
+    String stopPumpThree();
+    bool getPumpThreeStatus();
 };
