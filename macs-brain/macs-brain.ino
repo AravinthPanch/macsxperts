@@ -41,22 +41,19 @@ void setup() {
 // ISR
 void sensingRoutine(void)
 {
-
   float temperature = temperature_meter.getTemperature();
   lcd_display.showTemperature(temperature);
 
-  float ecValue = ec_meter.getEc(temperature);
-  dosing_pump.balanceEc(ecValue);
+  float ecValue = ec_meter.getEc(temperature);  
   lcd_display.showEc(ecValue);
+  // lcd_display.showMsg(dosing_pump.balanceEc(ecValue));
 
   float phValue = ph_meter.getPh();
   lcd_display.showPh(phValue);
-  
-  lcd_display.showMsg(dosing_pump.balancePh(phValue));
+  lcd_display.showMsg(dosing_pump.balancePh(phValue));  
 }
 
 
 // Main Loop
 void loop() {
-
 }

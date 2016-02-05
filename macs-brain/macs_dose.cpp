@@ -44,7 +44,7 @@ bool macs_dose::getPumpThreeStatus() {
 // pH Logic
 String macs_dose::balancePh(float phValue) {
   if (phValue < 8.0) {
-    startPumpOne(10);
+    startPumpOne(5);
     return "P1: ON";
   }
   else {
@@ -56,7 +56,16 @@ String macs_dose::balancePh(float phValue) {
 
 // EC logic
 String macs_dose::balanceEc(float ecValue) {
-  return "P1: ON";
+  if (ecValue < 1200) {
+    startPumpTwo(5);
+    startPumpThree(5);
+    return "P2,3: ON";
+  }
+  else {
+    stopPumpTwo();
+    stopPumpThree();
+    return "P2,3: OFF";
+  }  
 }
 
 
