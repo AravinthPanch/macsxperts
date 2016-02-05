@@ -2,7 +2,7 @@
    Author: Aravinth Panchadcharam
    Email: me@aravinth.info
    Date: 18/01/16.
-   Project: Macsxperts Aeroponics Vertical Farming
+   Project: Macsxperts Vertical Farming Solutions
    Description: DFRobot pH Pro (SEN0169)
 */
 

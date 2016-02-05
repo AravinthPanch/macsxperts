@@ -2,7 +2,7 @@
    Author: Aravinth Panchadcharam
    Email: me@aravinth.info
    Date: 23/01/16.
-   Project: Macsxperts Aeroponics Vertical Farming
+   Project: Macsxperts Vertical Farming Solutions
    Description: 12V DC Peristaltic Dosing Pump
 */
 
@@ -36,10 +36,10 @@ String macs_dose::startPumpOne() {
   pumpOne12EnablePinStatus = true;
 
   digitalWrite(pumpOne1Apin, HIGH);
-  pumpOne1ApinStatus = false;
+  pumpOne1ApinStatus = true;
 
   digitalWrite(pumpOne2Apin, LOW);
-  pumpOne2ApinStatus = true;
+  pumpOne2ApinStatus = false;
 
   pumpOneStatus = true;
   return "ON";
@@ -71,10 +71,10 @@ String macs_dose::startPumpTwo() {
   pumpTwo34EnablePinStatus = true;
 
   digitalWrite(pumpTwo3Apin, HIGH);
-  pumpTwo3ApinStatus = false;
+  pumpTwo3ApinStatus = true;
 
   digitalWrite(pumpTwo4Apin, LOW);
-  pumpTwo4ApinStatus = true;
+  pumpTwo4ApinStatus = false;
 
   pumpTwoStatus = true;
   return "ON";
@@ -106,10 +106,10 @@ String macs_dose::startPumpThree() {
   pumpThree12EnablePinStatus = true;
 
   digitalWrite(pumpThree1Apin, HIGH);
-  pumpThree1ApinStatus = false;
+  pumpThree1ApinStatus = true;
 
   digitalWrite(pumpThree2Apin, LOW);
-  pumpThree2ApinStatus = true;
+  pumpThree2ApinStatus = false;
 
   pumpThreeStatus = true;
   return "ON";

@@ -2,7 +2,7 @@
    Author: Aravinth Panchadcharam
    Email: me@aravinth.info
    Date: 24/01/16.
-   Project: Macsxperts Aeroponics Vertical Farming
+   Project: Macsxperts Vertical Farming Solutions
    Description: HD44780 16x2 LCD
 */
 
