@@ -1,4 +1,12 @@
-#!/bin/bash
+#!/bin/sh
+##############################################################
+#  Script     : ssh-persisr.sh
+#  Author     : Aravinth<me@aravinth.info>
+#  Date       : 01/02/2016
+##############################################################
+# Description:
+# - Persist the Reverse SSH Tunnel to serve Big Brother Nodejs Server
+##############################################################
 
 /bin/pidof ssh
 

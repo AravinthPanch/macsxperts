@@ -1,13 +1,9 @@
 {
   "name": "big-brother",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Aravinth Panchadcharam",
-  "license": "ISC",
+  "description": "Webserver to authenticate and start mjpg_stream and statically serve Big Brother dashboard",
+  "main": "server.js",  
+  "author": "Aravinth Panchadcharam",  
   "dependencies": {
     "basic-auth-connect": "^1.0.0",
     "express": "^4.13.4",
