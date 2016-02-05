@@ -26,5 +26,6 @@ class macs_display
     void showDefaults();
     void showPh(float val);
     void showEc(float val);
+    void showTemperature(float val);
     void showMsg(String msg);
 };

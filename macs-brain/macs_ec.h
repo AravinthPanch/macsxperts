@@ -9,11 +9,17 @@
 // Libraries
 #include "Arduino.h"
 
+// Declarations
+#define ecSensorPin A1
+#define ecArrayLenth 20
+
 class macs_ec
 {
   private:
-    float counter = 0.01;    
+    int ecArray[ecArrayLenth];
+    int ecArrayIndex = 0;
+    double ecArrayAverage(int* arr, int arrayLength);
 
   public:
-    int holaEc();    
+    float getEc(float temperature);
 };

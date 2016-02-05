@@ -22,7 +22,7 @@
 
 const byte numReadings = 20;     //the number of sample times
 byte ECsensorPin = A1;  //EC Meter analog output,pin on analog 1
-byte DS18B20_Pin = 52; //DS18B20 signal, pin on digital 2
+byte DS18B20_Pin = 47; //DS18B20 signal, pin on digital 2
 unsigned int AnalogSampleInterval = 25, printInterval = 700, tempSampleInterval = 850; //analog sample interval;serial print interval;temperature sample interval
 unsigned int readings[numReadings];      // the readings from the analog input
 byte index = 0;                  // the index of the current reading
@@ -92,20 +92,24 @@ void loop() {
     Serial.print("mV    ");
     Serial.print("temp:");
     Serial.print(temperature);    //current temperature
-    Serial.print("^C     EC:");
+    
 
-    float TempCoefficient = 1.0 + 0.0185 * (temperature - 25.0); //temperature compensation formula: fFinalResult(25^C) = fFinalResult(current)/(1.0+0.0185*(fTP-25.0));
+    float TempCoefficient = 1.0 + 0.0185 * (temperature - 25.87); //temperature compensation formula: fFinalResult(25^C) = fFinalResult(current)/(1.0+0.0185*(fTP-25.0));
     float CoefficientVolatge = (float)averageVoltage / TempCoefficient;
-    if (CoefficientVolatge < 150)Serial.println("No solution!"); //25^C 1413us/cm<-->about 216mv  if the voltage(compensate)<150,that is <1ms/cm,out of the range
+    Serial.print("  CoefficientVolatge: ");
+    Serial.print(CoefficientVolatge);
+
+    Serial.print("     EC:");
+    if (CoefficientVolatge < 150)Serial.println("   No solution!"); //25^C 1413us/cm<-->about 216mv  if the voltage(compensate)<150,that is <1ms/cm,out of the range
     else if (CoefficientVolatge > 3300)Serial.println("Out of the range!"); //>20ms/cm,out of the range
     else
     {
       if (CoefficientVolatge <= 448)ECcurrent = 6.84 * CoefficientVolatge - 64.32; //1ms/cm<EC<=3ms/cm
       else if (CoefficientVolatge <= 1457)ECcurrent = 6.98 * CoefficientVolatge - 127; //3ms/cm<EC<=10ms/cm
       else ECcurrent = 5.3 * CoefficientVolatge + 2278;                     //10ms/cm<EC<20ms/cm
-      ECcurrent /= 1000;  //convert us/cm to ms/cm
+      // ECcurrent /= 1000;  //convert us/cm to ms/cm
       Serial.print(ECcurrent, 2); //two decimal
-      Serial.println("ms/cm");
+      Serial.println("us/cm");
     }
   }
 

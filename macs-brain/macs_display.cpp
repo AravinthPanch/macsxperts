@@ -27,6 +27,10 @@ void macs_display::showDefaults() {
   // First line after ph to show EC
   lcd.setCursor(9, 0);
   lcd.print("EC: ");
+
+  // Second line to show Temp
+  lcd.setCursor(0, 1);
+  lcd.print("'C: ");
 };
 
 // Show pH value in the lcd display
@@ -44,9 +48,21 @@ void macs_display::showEc(float val) {
   Serial.print(millis() / 1000.0, 3);
   Serial.print(" : ");
   Serial.print("EC: ");
-  Serial.println(val);
-  lcd.setCursor(13, 0);
-  lcd.print(val, 2);
+  Serial.print(val);
+  Serial.println(" μs/cm");
+  lcd.setCursor(12, 0);
+  lcd.print(val, 0);
+}
+
+// Show EC value in the lcd display
+void macs_display::showTemperature(float val) {
+  Serial.print(millis() / 1000.0, 3);
+  Serial.print(" : ");
+  Serial.print("'C: ");
+  Serial.print(val);
+  Serial.println("° celcius");
+  lcd.setCursor(4, 1);
+  lcd.print(val, 1);
 }
 
 // Show given message in the lcd display

@@ -15,7 +15,7 @@
 #include "macs_temperature.h"
 
 // Declarations
-#define serial_baud_rate 9600
+#define serial_baud_rate 115200
 // Timer1 interval 1sec => 1000000 microsec
 #define timer1_interval 1000000
 
@@ -43,9 +43,11 @@ void sensingRoutine(void)
 {
   // dosing_pump.pumpsTest();
   // lcd_display.showMsg("Testing Pumps");
+  float temperature = temperature_meter.getTemperature();
+  lcd_display.showTemperature(temperature);
+  lcd_display.showEc(ec_meter.getEc(temperature));
   lcd_display.showPh(ph_meter.getPh());
-  lcd_display.showEc(ec_meter.holaEc());
-  lcd_display.showMsg(String(temperature_meter.getTemperature()));
+  Serial.println("");
 }
 
 
