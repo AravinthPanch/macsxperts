@@ -9,9 +9,8 @@
 #include "Arduino.h"
 
 // Declarations
-#define phArrayLenth 60
-//pH meter Analog output to Arduino Analog Input 0
 #define phSensorPin A0
+#define phArrayLenth 60
 //deviation compensate
 #define phOffset 0.00
 

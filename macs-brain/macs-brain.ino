@@ -12,7 +12,7 @@
 #include "macs_ph.h"
 #include "macs_ec.h"
 #include "macs_dose.h"
-
+#include "macs_temperature.h"
 
 // Declarations
 #define serial_baud_rate 9600
@@ -22,6 +22,7 @@
 macs_display lcd_display;
 macs_ph ph_meter;
 macs_ec ec_meter;
+macs_temperature temperature_meter;
 macs_dose dosing_pump;
 
 
@@ -44,6 +45,7 @@ void sensingRoutine(void)
   // lcd_display.showMsg("Testing Pumps");
   lcd_display.showPh(ph_meter.getPh());
   lcd_display.showEc(ec_meter.holaEc());
+  lcd_display.showMsg(String(temperature_meter.getTemperature()));
 }
 
 
