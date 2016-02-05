@@ -66,9 +66,9 @@ void macs_display::showTemperature(float val) {
 }
 
 // Show given message in the lcd display
-void macs_display::showMsg(String msg) {
-  lcd.setCursor(0, 1);
-  lcd.print("                ");
-  lcd.setCursor(0, 1);
+void macs_display::showMsg(String msg) {  
+  lcd.setCursor(9, 1);
+  lcd.print("        ");
+  lcd.setCursor(9, 1);
   lcd.print(msg);
 }
