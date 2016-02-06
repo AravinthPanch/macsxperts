@@ -43,6 +43,9 @@ class macs_dose
     int pumpOneTimer = 1;
     int pumpTwoTimer = 1;
     int pumpThreeTimer = 1;
+    int testPumpTimer = 1;
+
+    bool testPumpStatus = false;
 
     void startPump(int enablePin, bool* enablePinVar,
                    int firstPin, bool* firstPinVar,
@@ -50,13 +53,13 @@ class macs_dose
                    bool* pumpStatus);
 
     void stopPump(int enablePin, bool* enablePinVar,
-                   int firstPin, bool* firstPinVar,
-                   int secondPin, bool* secondPinVar,
-                   bool* pumpStatus);
+                  int firstPin, bool* firstPinVar,
+                  int secondPin, bool* secondPinVar,
+                  bool* pumpStatus);
 
   public:
     macs_dose();
-    
+
     void startPumpOne(int seconds);
     void stopPumpOne();
     bool getPumpOneStatus();
@@ -71,4 +74,7 @@ class macs_dose
 
     String balancePh(float phValue);
     String balanceEc(float ecValue);
+
+    String testPump(int pumpNr, int seconds);
+    void setTestPumpStatus(bool status);
 };

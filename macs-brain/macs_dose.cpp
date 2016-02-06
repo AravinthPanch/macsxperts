@@ -50,7 +50,7 @@ String macs_dose::balancePh(float phValue) {
   else {
     stopPumpOne();
     return "P1: OFF";
-  }  
+  }
 }
 
 
@@ -65,7 +65,7 @@ String macs_dose::balanceEc(float ecValue) {
     stopPumpTwo();
     stopPumpThree();
     return "P2,3: OFF";
-  }  
+  }
 }
 
 
@@ -184,5 +184,49 @@ void macs_dose::stopPumpThree() {
              pumpThree1Apin, &pumpThree1ApinStatus,
              pumpThree2Apin, &pumpThree2ApinStatus,
              &pumpThreeStatus);
+  }
+}
+
+void macs_dose::setTestPumpStatus(bool status) {
+  testPumpStatus = true;
+}
+
+String macs_dose::testPump(int pumpNr, int seconds) {
+  if (testPumpTimer <= seconds & testPumpStatus) {
+    testPumpTimer++;
+
+    switch (pumpNr) {
+      case 1:
+        startPumpOne(seconds);
+        return "P1: ON";
+        break;
+      case 2:
+        startPumpTwo(seconds);
+        return "P2: ON";
+        break;
+      case 3:
+        startPumpThree(seconds);
+        return "P3: ON";
+        break;
+    }
+  }
+  else {
+    testPumpStatus = false;
+    testPumpTimer = 1;
+
+    switch (pumpNr) {
+      case 1:
+        stopPumpOne();
+        return "P1: OFF";
+        break;
+      case 2:
+        stopPumpTwo();
+        return "P2: OFF";
+        break;
+      case 3:
+        stopPumpThree();
+        return "P3: OFF";
+        break;
+    }
   }
 }

@@ -34,6 +34,9 @@ float macs_ec::getEc(float temperature) {
   {
     //25^C 1413us/cm<-->about 216mv  if the voltage(compensate)<150,that is <1ms/cm,out of the range
     //>20ms/cm,out of the range
+    Serial.print(millis() / 1000.0, 3);
+    Serial.print(" : ");
+    Serial.print("Info : ");
     Serial.println("Subject is not in measurable range of EC");
     ecValue = 0;
   }
