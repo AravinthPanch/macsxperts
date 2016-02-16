@@ -42,10 +42,15 @@ bool macs_dose::getPumpThreeStatus() {
 
 
 // pH Logic
-String macs_dose::balancePh(float phValue) {
-  if (phValue < 8.0) {
+String macs_dose::balancePh(float _phValue) {
+  phValue = _phValue;
+    
+  if (phValue > pHmax) {
     startPumpOne(5);
     return "P1: ON";
+  }
+  else if (phValue < pHmin) {
+    return "Low pH";
   }
   else {
     stopPumpOne();
@@ -55,11 +60,16 @@ String macs_dose::balancePh(float phValue) {
 
 
 // EC logic
-String macs_dose::balanceEc(float ecValue) {
-  if (ecValue < 1200) {
+String macs_dose::balanceEc(float _ecValue) {
+  ecValue = _ecValue;
+
+  if (ecValue < ecMin) {
     startPumpTwo(5);
     startPumpThree(5);
     return "P2,3: ON";
+  }
+  else if (ecValue > ecMax) {
+    return "High EC";
   }
   else {
     stopPumpTwo();
@@ -112,26 +122,33 @@ void macs_dose::stopPump(int enablePin, bool* enablePinVar,
   digitalWrite(secondPin, HIGH);
   *secondPinVar = true;
 
-  *pumpStatus = true;
+  *pumpStatus = false;
 }
 
 
 void macs_dose::startPumpOne(int seconds) {
-  if (pumpOneTimer <= seconds || seconds == 0) {
+  Serial.print("Pump Timer");
+  Serial.println(pumpOneTimer);
+  if (pumpOneTimer <= seconds) {
+    Serial.println("in1");
     pumpOneTimer++;
     if (!pumpOneStatus) {
+      Serial.println("in2");
       startPump(pumpOne12EnablePin, &pumpOne12EnablePinStatus,
                 pumpOne1Apin, &pumpOne1ApinStatus,
                 pumpOne2Apin, &pumpOne2ApinStatus,
                 &pumpOneStatus);
     }
   }
+  else {
+    stopPumpOne();
+  }
 }
 
 
-void macs_dose::stopPumpOne() {
-  pumpOneTimer = 1;
+void macs_dose::stopPumpOne() {  
   if (pumpOneStatus) {
+    pumpOneTimer = 1;    
     stopPump(pumpOne12EnablePin, &pumpOne12EnablePinStatus,
              pumpOne1Apin, &pumpOne1ApinStatus,
              pumpOne2Apin, &pumpOne2ApinStatus,
@@ -141,7 +158,7 @@ void macs_dose::stopPumpOne() {
 
 
 void macs_dose::startPumpTwo(int seconds) {
-  if (pumpTwoTimer <= seconds || seconds == 0) {
+  if (pumpTwoTimer <= seconds) {
     pumpTwoTimer++;
     if (!pumpTwoStatus) {
       startPump(pumpTwo34EnablePin, &pumpTwo34EnablePinStatus,
@@ -165,7 +182,7 @@ void macs_dose::stopPumpTwo() {
 
 
 void macs_dose::startPumpThree(int seconds) {
-  if (pumpThreeTimer <= seconds || seconds == 0) {
+  if (pumpThreeTimer <= seconds) {
     pumpThreeTimer++;
     if (!pumpThreeStatus) {
       startPump(pumpThree12EnablePin, &pumpThree12EnablePinStatus,

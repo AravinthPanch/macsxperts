@@ -36,7 +36,7 @@ void setup() {
   Timer1.initialize(timer1_interval);
   Timer1.attachInterrupt(sensingRoutine);
 
-  dosing.setTestPumpStatus(true);
+  //  dosing.setTestPumpStatus(true);
 }
 
 
@@ -48,13 +48,13 @@ void sensingRoutine(void)
 
   float ecValue = ec_meter.getEc(temperature);
   lcd_display.showEc(ecValue);
-  // lcd_display.showMsg(dosing.balanceEc(ecValue));
+  lcd_display.showMsg(dosing.balanceEc(ecValue));
 
   float phValue = ph_meter.getPh();
   lcd_display.showPh(phValue);
-  // lcd_display.showMsg(dosing.balancePh(phValue));
+  lcd_display.showMsg(dosing.balancePh(phValue));
 
-  lcd_display.showMsg(dosing.testPump(1, 10));
+  //  lcd_display.showMsg(dosing.testPump(1, 10));
   Serial.println("");
 }
 

@@ -22,9 +22,17 @@
 #define pumpThree1Apin 30
 #define pumpThree2Apin 44
 
+#define pHmin 5.5
+#define pHmax 6.5
+#define ecMin 1200
+#define ecMax 1600  
+
 class macs_dose
 {
   private:
+    float ecValue;
+    float phValue;
+
     bool pumpOne12EnablePinStatus = false;
     bool pumpOne1ApinStatus = false;
     bool pumpOne2ApinStatus = false;

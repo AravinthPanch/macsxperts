@@ -51,7 +51,7 @@ void macs_display::showEc(float val) {
   Serial.print(val);
   Serial.println(" μs/cm");
   lcd.setCursor(12, 0);
-  lcd.print(val, 0);
+  lcd.print(val, 2);
 }
 
 // Show EC value in the lcd display
