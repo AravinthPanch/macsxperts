@@ -19,13 +19,16 @@ oscPort.on("message", function (oscMsg) {
 	console.log("OSC", oscMsg);
 	switch (oscMsg.address) {
 		case "/ph/":
-			$("#phValue").html(oscMsg.args[0]);
+			var phValue = oscMsg.args[0];
+			$("#phValue").html(phValue.toFixed(2));
 			break;
 		case "/ec/":
-			$("#ecValue").html(oscMsg.args[0]);
+			var ecValue = oscMsg.args[0];
+			$("#ecValue").html(Math.round(ecValue));
 			break;
 		case "/temp/":
-			$("#tempValue").html(oscMsg.args[0]);
+			var tempValue = oscMsg.args[0];
+			$("#tempValue").html(tempValue.toFixed(2));
 			break;
 	}
 });
