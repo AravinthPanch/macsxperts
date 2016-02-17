@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Macsxperts vertical farming solutions">
+    <meta name="author" content="Aravinth">
+
+    <!--favicon icon-->
+    <link rel="icon" type="image/png" href="img/macsxperts-favicon.png">
+    <title>Macs API</title>
+
+    <!--libraries-->
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/semantic.min.js"></script>
+    <script src="bower_components/osc.js/dist/osc-browser.min.js"></script>
+    <script src="index.js"></script>
+
+    <!--styles-->
+    <link href="css/semantic.min.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="ui container">
+    <div class="ui segments">
+        <div class="ui segment">
+            <h2 class="ui center aligned icon header">
+                <img src="img/macsxperts-logo.png">
+
+                <div class="content">
+                    Macsxperts API
+                    <div class="sub header">Macsxperts Vertical Farming Solutions</div>
+                </div>
+            </h2>
+        </div>
+        <div class="ui segment center aligned">
+            <div class="ui cards" style="padding-left: 100px">
+                <div class="card">
+                    <div class="image">
+                        <h1><i class="leaf icon"></i></h1>
+                    </div>
+                    <div class="content">
+                        <div id="ecValue" class="header">0.0</div>
+                        <div class="meta">μs/cm</div>
+                    </div>
+                    <div class="extra content">
+                        <h3>Electrical Conductivity</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="image">
+                        <h1><i class="theme icon"></i></h1>
+                    </div>
+                    <div class="content">
+                        <div id="phValue" class="header">0.0</div>
+                    </div>
+                    <div class="extra content">
+                        <h3>pH</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="image">
+                        <h1><i class="sun icon"></i></h1>
+                    </div>
+                    <div class="content">
+                        <div id="tempValue" class="header">0.0</div>
+                        <div class="meta">degree celcius</div>
+                    </div>
+                    <div class="extra content">
+                        <h3>Temperature</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
