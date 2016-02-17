@@ -13,6 +13,7 @@
 #include "macs_ec.h"
 #include "macs_dose.h"
 #include "macs_temperature.h"
+#include "macs_api.h"  
 
 // Declarations
 #define serial_baud_rate 115200
@@ -24,6 +25,7 @@ macs_ph ph_meter;
 macs_ec ec_meter;
 macs_temperature temperature_meter;
 macs_dose dosing;
+macs_api api;
 
 
 // Setup
@@ -44,13 +46,16 @@ void setup() {
 void sensingRoutine(void)
 {
   float temperature = temperature_meter.getTemperature();
+  api.sendTemp(temperature);
   lcd_display.showTemperature(temperature);
 
   float ecValue = ec_meter.getEc(temperature);
+  api.sendEc(ecValue);
   lcd_display.showEc(ecValue);
   lcd_display.showMsg(dosing.balanceEc(ecValue));
 
   float phValue = ph_meter.getPh();
+  api.sendPh(phValue);
   lcd_display.showPh(phValue);
   lcd_display.showMsg(dosing.balancePh(phValue));
 
