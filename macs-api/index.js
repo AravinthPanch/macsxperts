@@ -8,7 +8,7 @@
  */
 
 var oscPort = new osc.WebSocketPort({
-	url: "ws://localhost:3001"
+	url: "ws://macsxperts.local:3001"
 });
 
 oscPort.on("open", function () {
