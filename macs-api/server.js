@@ -11,8 +11,9 @@ var osc = require("osc"),
 	http = require("http"),
 	ws = require("ws"),
 	express = require("express"),
+	basicAuth = require('basic-auth-connect'),
 	app = express(),
-	webServer = app.listen(8081, function () {
+	webServer = app.listen(3001, function () {
 		console.log("OSC Serial <=> Browser Relay is started");
 	}),
 	webSocket = new ws.Server({
@@ -24,6 +25,9 @@ var osc = require("osc"),
 		bitrate: "115200"
 	});
 
+
+app.use(basicAuth('guest', 'macs@gp15'));
+app.use("/", express.static(__dirname));
 
 webSocket.on("connection", function (browserSocket) {
 	// On Client connection

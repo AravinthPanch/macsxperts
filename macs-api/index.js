@@ -8,7 +8,7 @@
  */
 
 var oscPort = new osc.WebSocketPort({
-	url: "ws://localhost:8081"
+	url: "ws://localhost:3001"
 });
 
 oscPort.on("open", function () {
