@@ -40,11 +40,13 @@ webSocket.on("connection", function (browserSocket) {
 
 	// Relay Browser OSC Message to Serial
 	oscSocket.on("message", function (browserMsg) {
+		console.debug("Browser ", browserMsg);
 		oscSerial.send(browserMsg);
 	});
 
 	// Relay Serial OSC Message to Browser
 	oscSerial.on("message", function (serialMsg) {
+		console.debug("Serial ", serialMsg);
 		oscSocket.send(serialMsg);
 	});
 
@@ -65,3 +67,6 @@ webSocket.on("connection", function (browserSocket) {
 	});
 });
 
+
+// Open OSC via Serial
+oscSerial.open();
