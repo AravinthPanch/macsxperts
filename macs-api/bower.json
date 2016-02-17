@@ -1,0 +1,11 @@
+{
+  "name": "macs-api",
+  "description": "Macsxperts API",
+  "main": "index.js",
+  "authors": [
+    "Aravinth Panchadcharam"
+  ],
+  "dependencies": {
+    "osc.js": "~2.0.3"
+  }
+}
