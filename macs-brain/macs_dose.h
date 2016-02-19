@@ -25,64 +25,68 @@
 #define pHmin 5.5
 #define pHmax 6.5
 #define ecMin 1200
-#define ecMax 1600  
+#define ecMax 1600
 
 class macs_dose
 {
-  private:
-    float ecValue;
-    float phValue;
+private:
+  float ecValue;
+  float phValue;
 
-    bool pumpOne12EnablePinStatus = false;
-    bool pumpOne1ApinStatus = false;
-    bool pumpOne2ApinStatus = false;
-    bool pumpOneStatus = false;
+  bool pumpOne12EnablePinStatus = false;
+  bool pumpOne1ApinStatus = false;
+  bool pumpOne2ApinStatus = false;
+  bool pumpOneStatus = false;
 
-    bool pumpTwo34EnablePinStatus = false;
-    bool pumpTwo3ApinStatus = false;
-    bool pumpTwo4ApinStatus = false;
-    bool pumpTwoStatus = false;
+  bool pumpTwo34EnablePinStatus = false;
+  bool pumpTwo3ApinStatus = false;
+  bool pumpTwo4ApinStatus = false;
+  bool pumpTwoStatus = false;
 
-    bool pumpThree12EnablePinStatus = false;
-    bool pumpThree1ApinStatus = false;
-    bool pumpThree2ApinStatus = false;
-    bool pumpThreeStatus = false;
+  bool pumpThree12EnablePinStatus = false;
+  bool pumpThree1ApinStatus = false;
+  bool pumpThree2ApinStatus = false;
+  bool pumpThreeStatus = false;
 
-    int pumpOneTimer = 1;
-    int pumpTwoTimer = 1;
-    int pumpThreeTimer = 1;
-    int testPumpTimer = 1;
+  int pumpOneTimer = 0;
+  int pumpOneTimerInterval = 5;
 
-    bool testPumpStatus = false;
+  int pumpTwoTimer = 0;
+  int pumpTwoTimerInterval = 5;
 
-    void startPump(int enablePin, bool* enablePinVar,
-                   int firstPin, bool* firstPinVar,
-                   int secondPin, bool* secondPinVar,
-                   bool* pumpStatus);
+  int pumpThreeTimer = 0;
+  int pumpThreeTimerInterval = 5;
 
-    void stopPump(int enablePin, bool* enablePinVar,
-                  int firstPin, bool* firstPinVar,
-                  int secondPin, bool* secondPinVar,
-                  bool* pumpStatus);
+  int testPumpTimer = 1;
+  bool testPumpStatus = false;
 
-  public:
-    macs_dose();
+  void startPump(int enablePin, bool* enablePinVar,
+                 int firstPin, bool* firstPinVar,
+                 int secondPin, bool* secondPinVar,
+                 bool* pumpStatus, int pumpNumber);
 
-    void startPumpOne(int seconds);
-    void stopPumpOne();
-    bool getPumpOneStatus();
+  void stopPump(int enablePin, bool* enablePinVar,
+                int firstPin, bool* firstPinVar,
+                int secondPin, bool* secondPinVar,
+                bool* pumpStatus, int pumpNumber);
 
-    void startPumpTwo(int seconds);
-    void stopPumpTwo();
-    bool getPumpTwoStatus();
+public:
+  macs_dose();
+  String startPumpOne();
+  String stopPumpOne();
+  bool getPumpOneStatus();
 
-    void startPumpThree(int seconds);
-    void stopPumpThree();
-    bool getPumpThreeStatus();
+  String startPumpTwo();
+  String stopPumpTwo();
+  bool getPumpTwoStatus();
 
-    String balancePh(float phValue);
-    String balanceEc(float ecValue);
+  String startPumpThree();
+  String stopPumpThree();
+  bool getPumpThreeStatus();
 
-    String testPump(int pumpNr, int seconds);
-    void setTestPumpStatus(bool status);
+  String balancePh(float phValue);
+  String balanceEc(float ecValue);
+
+  String testPump(int pumpNr, int seconds);
+  void setTestPumpStatus(bool status);
 };

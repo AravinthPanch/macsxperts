@@ -40,21 +40,44 @@ bool macs_dose::getPumpThreeStatus() {
   return pumpThreeStatus;
 }
 
-
 // pH Logic
 String macs_dose::balancePh(float _phValue) {
   phValue = _phValue;
-    
-  if (phValue > pHmax) {
-    startPumpOne(5);
-    return "P1: ON";
+
+  // If pH is above the maximum,
+  // start and stop the pump in the given interval,
+  // till optima pH is achieved
+  if (phValue >= pHmax) {
+    pumpOneTimer++;
+
+    if (pumpOneTimer >= pumpOneTimerInterval) {
+      pumpOneTimer = 0;
+
+      // If the pump is not running, start it,
+      // Else stop it
+      if (!pumpOneStatus) {
+        return startPumpOne();
+      }
+      else {
+        return stopPumpOne();
+      }
+    }
+    // Report the pump status
+    else if (pumpOneStatus) {
+      return "P1: ON";
+    }
+    else if (!pumpOneStatus) {
+      return "P1: OFF";
+    }
   }
-  else if (phValue < pHmin) {
+  // If pH is in the optimal range, stop the pump
+  else if (phValue >= pHmin && phValue <= pHmax) {
+    pumpOneTimer = 0;
+    return stopPumpOne();
+  }
+  // Report if pH is below the minimum
+  else if (phValue <= pHmin) {
     return "Low pH";
-  }
-  else {
-    stopPumpOne();
-    return "P1: OFF";
   }
 }
 
@@ -63,32 +86,128 @@ String macs_dose::balancePh(float _phValue) {
 String macs_dose::balanceEc(float _ecValue) {
   ecValue = _ecValue;
 
-  if (ecValue < ecMin) {
-    startPumpTwo(5);
-    startPumpThree(5);
-    return "P2,3: ON";
+// If EC is below the minimum,
+// start and stop the pump in the given interval,
+// till optima ec is achieved
+  if (ecValue <= ecMin) {
+    pumpTwoTimer++;
+
+    if (pumpTwoTimer >= pumpTwoTimerInterval) {
+      pumpTwoTimer = 0;
+
+      // If the pump is not running, start it,
+      // Else stop it
+      if (!pumpTwoStatus && !pumpThreeStatus) {
+        startPumpTwo();
+        startPumpThree();
+        return "P2,3: ON";
+      }
+      else {
+        stopPumpTwo();
+        stopPumpThree();
+        return "P2,3: OFF";
+      }
+    }
+    // Report the pump status
+    else if (pumpTwoStatus && pumpThreeStatus) {
+      return "P2,3: ON";
+    }
+    else if (!pumpTwoStatus && !pumpThreeStatus) {
+      return "P2,3: OFF";
+    }
   }
-  else if (ecValue > ecMax) {
-    return "High EC";
-  }
-  else {
+// If ec is in the optimal range, stop the pump
+  else if (ecValue >= ecMin && ecValue <= ecMax) {
+    pumpTwoTimer = 0;
     stopPumpTwo();
     stopPumpThree();
     return "P2,3: OFF";
   }
+// Report if ec is above the minimum
+  else if (ecValue >= ecMax) {
+    return "High EC";
+  }
 }
 
+
+String macs_dose::startPumpOne() {
+  if (!pumpOneStatus) {
+    startPump(pumpOne12EnablePin, &pumpOne12EnablePinStatus,
+              pumpOne1Apin, &pumpOne1ApinStatus,
+              pumpOne2Apin, &pumpOne2ApinStatus,
+              &pumpOneStatus, 1);
+  }
+  return "P1: ON";
+}
+
+String macs_dose::stopPumpOne() {
+  if (pumpOneStatus) {
+    stopPump(pumpOne12EnablePin, &pumpOne12EnablePinStatus,
+             pumpOne1Apin, &pumpOne1ApinStatus,
+             pumpOne2Apin, &pumpOne2ApinStatus,
+             &pumpOneStatus, 1);
+  }
+  return "P1: OFF";
+}
+
+
+String macs_dose::startPumpTwo() {
+  if (!pumpTwoStatus) {
+    startPump(pumpTwo34EnablePin, &pumpTwo34EnablePinStatus,
+              pumpTwo3Apin, &pumpTwo3ApinStatus,
+              pumpTwo4Apin, &pumpTwo4ApinStatus,
+              &pumpTwoStatus, 2);
+  }
+  return "P2: ON";
+}
+
+
+String macs_dose::stopPumpTwo() {
+  if (pumpTwoStatus) {
+    stopPump(pumpTwo34EnablePin, &pumpTwo34EnablePinStatus,
+             pumpTwo3Apin, &pumpTwo3ApinStatus,
+             pumpTwo4Apin, &pumpTwo4ApinStatus,
+             &pumpTwoStatus, 2);
+  }
+  return "P2: OFF";
+}
+
+
+String macs_dose::startPumpThree() {
+  if (!pumpThreeStatus) {
+    startPump(pumpThree12EnablePin, &pumpThree12EnablePinStatus,
+              pumpThree1Apin, &pumpThree1ApinStatus,
+              pumpThree2Apin, &pumpThree2ApinStatus,
+              &pumpThreeStatus, 3);
+  }
+  return "P3: ON";
+}
+
+
+String macs_dose::stopPumpThree() {
+  if (pumpThreeStatus) {
+    stopPump(pumpThree12EnablePin, &pumpThree12EnablePinStatus,
+             pumpThree1Apin, &pumpThree1ApinStatus,
+             pumpThree2Apin, &pumpThree2ApinStatus,
+             &pumpThreeStatus, 3);
+  }
+  return "P3: OFF";
+}
+
+
+// -------------------- Drive Motors --------------------//
 
 // Drive pump in clockwise direction (Pump is connected as upper connector
 // is Positive and lower connector is Negative): 1A -> H, 2A -> L
 void macs_dose::startPump(int enablePin, bool* enablePinVar,
                           int firstPin, bool* firstPinVar,
                           int secondPin, bool* secondPinVar,
-                          bool* pumpStatus) {
+                          bool* pumpStatus, int pumpNumber) {
 
   Serial.print(millis() / 1000.0, 3);
-  Serial.print(" : ");
-  Serial.println("PumpOne is ON");
+  Serial.print(" : P");
+  Serial.print(pumpNumber);
+  Serial.println(" is switched ON");
 
   digitalWrite(enablePin, HIGH);
   *enablePinVar = true;
@@ -107,11 +226,12 @@ void macs_dose::startPump(int enablePin, bool* enablePinVar,
 void macs_dose::stopPump(int enablePin, bool* enablePinVar,
                          int firstPin, bool* firstPinVar,
                          int secondPin, bool* secondPinVar,
-                         bool* pumpStatus) {
+                         bool* pumpStatus, int pumpNumber) {
 
   Serial.print(millis() / 1000.0, 3);
-  Serial.print(" : ");
-  Serial.println("PumpOne is OFF");
+  Serial.print(" : P");
+  Serial.print(pumpNumber);
+  Serial.println(" is switched OFF");
 
   digitalWrite(enablePin, LOW);
   *enablePinVar = false;
@@ -125,84 +245,7 @@ void macs_dose::stopPump(int enablePin, bool* enablePinVar,
   *pumpStatus = false;
 }
 
-
-void macs_dose::startPumpOne(int seconds) {
-  Serial.print("Pump Timer");
-  Serial.println(pumpOneTimer);
-  if (pumpOneTimer <= seconds) {
-    Serial.println("in1");
-    pumpOneTimer++;
-    if (!pumpOneStatus) {
-      Serial.println("in2");
-      startPump(pumpOne12EnablePin, &pumpOne12EnablePinStatus,
-                pumpOne1Apin, &pumpOne1ApinStatus,
-                pumpOne2Apin, &pumpOne2ApinStatus,
-                &pumpOneStatus);
-    }
-  }
-  else {
-    stopPumpOne();
-  }
-}
-
-
-void macs_dose::stopPumpOne() {  
-  if (pumpOneStatus) {
-    pumpOneTimer = 1;    
-    stopPump(pumpOne12EnablePin, &pumpOne12EnablePinStatus,
-             pumpOne1Apin, &pumpOne1ApinStatus,
-             pumpOne2Apin, &pumpOne2ApinStatus,
-             &pumpOneStatus);
-  }
-}
-
-
-void macs_dose::startPumpTwo(int seconds) {
-  if (pumpTwoTimer <= seconds) {
-    pumpTwoTimer++;
-    if (!pumpTwoStatus) {
-      startPump(pumpTwo34EnablePin, &pumpTwo34EnablePinStatus,
-                pumpTwo3Apin, &pumpTwo3ApinStatus,
-                pumpTwo4Apin, &pumpTwo4ApinStatus,
-                &pumpTwoStatus);
-    }
-  }
-}
-
-
-void macs_dose::stopPumpTwo() {
-  pumpTwoTimer = 1;
-  if (pumpTwoStatus) {
-    stopPump(pumpTwo34EnablePin, &pumpTwo34EnablePinStatus,
-             pumpTwo3Apin, &pumpTwo3ApinStatus,
-             pumpTwo4Apin, &pumpTwo4ApinStatus,
-             &pumpTwoStatus);
-  }
-}
-
-
-void macs_dose::startPumpThree(int seconds) {
-  if (pumpThreeTimer <= seconds) {
-    pumpThreeTimer++;
-    if (!pumpThreeStatus) {
-      startPump(pumpThree12EnablePin, &pumpThree12EnablePinStatus,
-                pumpThree1Apin, &pumpThree1ApinStatus,
-                pumpThree2Apin, &pumpThree2ApinStatus,
-                &pumpThreeStatus);
-    }
-  }
-}
-
-
-void macs_dose::stopPumpThree() {
-  pumpThreeTimer = 1;
-  if (pumpThreeStatus) {
-    stopPump(pumpThree12EnablePin, &pumpThree12EnablePinStatus,
-             pumpThree1Apin, &pumpThree1ApinStatus,
-             pumpThree2Apin, &pumpThree2ApinStatus,
-             &pumpThreeStatus);
-  }
-}
+// -------------------- Test Functions --------------------//
 
 void macs_dose::setTestPumpStatus(bool status) {
   testPumpStatus = true;
@@ -213,18 +256,18 @@ String macs_dose::testPump(int pumpNr, int seconds) {
     testPumpTimer++;
 
     switch (pumpNr) {
-      case 1:
-        startPumpOne(seconds);
-        return "P1: ON";
-        break;
-      case 2:
-        startPumpTwo(seconds);
-        return "P2: ON";
-        break;
-      case 3:
-        startPumpThree(seconds);
-        return "P3: ON";
-        break;
+    case 1:
+      startPumpOne();
+      return "P1: ON";
+      break;
+    case 2:
+      startPumpTwo();
+      return "P2: ON";
+      break;
+    case 3:
+      startPumpThree();
+      return "P3: ON";
+      break;
     }
   }
   else {
@@ -232,18 +275,18 @@ String macs_dose::testPump(int pumpNr, int seconds) {
     testPumpTimer = 1;
 
     switch (pumpNr) {
-      case 1:
-        stopPumpOne();
-        return "P1: OFF";
-        break;
-      case 2:
-        stopPumpTwo();
-        return "P2: OFF";
-        break;
-      case 3:
-        stopPumpThree();
-        return "P3: OFF";
-        break;
+    case 1:
+      stopPumpOne();
+      return "P1: OFF";
+      break;
+    case 2:
+      stopPumpTwo();
+      return "P2: OFF";
+      break;
+    case 3:
+      stopPumpThree();
+      return "P3: OFF";
+      break;
     }
   }
 }
