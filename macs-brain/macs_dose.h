@@ -26,40 +26,49 @@
 #define pHmax 6.5
 #define ecMin 1200
 #define ecMax 1600
+#define phDosingInterval 5
+#define ecDosingInterval 5   
 
 class macs_dose
 {
 private:
+
+  // EC & pH parameters
   float ecValue;
   float phValue;
 
+  // Pump One Pin Status
   bool pumpOne12EnablePinStatus = false;
   bool pumpOne1ApinStatus = false;
   bool pumpOne2ApinStatus = false;
   bool pumpOneStatus = false;
 
+  // Pump Three Pin Status
   bool pumpTwo34EnablePinStatus = false;
   bool pumpTwo3ApinStatus = false;
   bool pumpTwo4ApinStatus = false;
   bool pumpTwoStatus = false;
 
+  // Pump Three Pin Status
   bool pumpThree12EnablePinStatus = false;
   bool pumpThree1ApinStatus = false;
   bool pumpThree2ApinStatus = false;
   bool pumpThreeStatus = false;
 
+  // pH Down Pump
   int pumpOneTimer = 0;
-  int pumpOneTimerInterval = 5;
 
+  // EC: Nutrient A Pump
   int pumpTwoTimer = 0;
-  int pumpTwoTimerInterval = 5;
 
+  // EC: Nutrient B Pump
   int pumpThreeTimer = 0;
-  int pumpThreeTimerInterval = 5;
 
+  // Test Function
   int testPumpTimer = 1;
   bool testPumpStatus = false;
 
+  // Motor Drive
   void startPump(int enablePin, bool* enablePinVar,
                  int firstPin, bool* firstPinVar,
                  int secondPin, bool* secondPinVar,
@@ -70,23 +79,32 @@ private:
                 int secondPin, bool* secondPinVar,
                 bool* pumpStatus, int pumpNumber);
 
-public:
-  macs_dose();
+  // Pump One
   String startPumpOne();
   String stopPumpOne();
-  bool getPumpOneStatus();
 
+  // Pump Two
   String startPumpTwo();
   String stopPumpTwo();
-  bool getPumpTwoStatus();
 
+  // Pump Three
   String startPumpThree();
   String stopPumpThree();
+
+public:
+  // Constructor
+  macs_dose();
+
+  // Pump Status
+  bool getPumpOneStatus();
+  bool getPumpTwoStatus();
   bool getPumpThreeStatus();
 
+  // EC & pH balance logic
   String balancePh(float phValue);
   String balanceEc(float ecValue);
 
+  // Test Function
   String testPump(int pumpNr, int seconds);
   void setTestPumpStatus(bool status);
 };

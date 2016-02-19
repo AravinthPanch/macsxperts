@@ -50,7 +50,7 @@ String macs_dose::balancePh(float _phValue) {
   if (phValue >= pHmax) {
     pumpOneTimer++;
 
-    if (pumpOneTimer >= pumpOneTimerInterval) {
+    if (pumpOneTimer >= phDosingInterval) {
       pumpOneTimer = 0;
 
       // If the pump is not running, start it,
@@ -92,7 +92,7 @@ String macs_dose::balanceEc(float _ecValue) {
   if (ecValue <= ecMin) {
     pumpTwoTimer++;
 
-    if (pumpTwoTimer >= pumpTwoTimerInterval) {
+    if (pumpTwoTimer >= ecDosingInterval) {
       pumpTwoTimer = 0;
 
       // If the pump is not running, start it,
