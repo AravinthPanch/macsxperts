@@ -17,7 +17,7 @@ void setup() {
 void loop() {
   //the message wants an OSC address as first argument
   OSCMessage msg("/analog/0");
-  msg.add((int32_t)counter);
+  msg.add((int32_t)counter++);
 
   SLIPSerial.beginPacket();
   // send the bytes to the SLIP stream
