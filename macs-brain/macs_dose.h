@@ -27,12 +27,11 @@
 #define ecMin 1200
 #define ecMax 1600
 #define phDosingInterval 5
-#define ecDosingInterval 5   
+#define ecDosingInterval 5
 
 class macs_dose
 {
-private:
-
+private:  
   // EC & pH parameters
   float ecValue;
   float phValue;
@@ -80,8 +79,8 @@ private:
                 bool* pumpStatus, int pumpNumber);
 
   // Pump One
-  String startPumpOne();
-  String stopPumpOne();
+  char* startPumpOne();
+  char* stopPumpOne();
 
   // Pump Two
   String startPumpTwo();
@@ -101,8 +100,8 @@ public:
   bool getPumpThreeStatus();
 
   // EC & pH balance logic
-  String balancePh(float phValue);
-  String balanceEc(float ecValue);
+  char* balancePh(float phValue);
+  char* balanceEc(float ecValue);
 
   // Test Function
   String testPump(int pumpNr, int seconds);

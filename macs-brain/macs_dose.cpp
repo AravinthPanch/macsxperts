@@ -8,10 +8,12 @@
 
 // Libraries
 #include "macs_dose.h"
+#include "macs_resource.h"   
 
+macs_resource resource;
 
 // Constructor
-macs_dose::macs_dose() {
+macs_dose::macs_dose() {  
   pinMode(pumpOne12EnablePin, OUTPUT);
   pinMode(pumpOne1Apin, OUTPUT);
   pinMode(pumpOne2Apin, OUTPUT);
@@ -41,7 +43,7 @@ bool macs_dose::getPumpThreeStatus() {
 }
 
 // pH Logic
-String macs_dose::balancePh(float _phValue) {
+char* macs_dose::balancePh(float _phValue) {
   phValue = _phValue;
 
   // If pH is above the maximum,
@@ -64,10 +66,10 @@ String macs_dose::balancePh(float _phValue) {
     }
     // Report the pump status
     else if (pumpOneStatus) {
-      return "P1: ON";
+      return "0xP1x1";
     }
     else if (!pumpOneStatus) {
-      return "P1: OFF";
+      return "0xP1x0";
     }
   }
   // If pH is in the optimal range, stop the pump
@@ -77,13 +79,13 @@ String macs_dose::balancePh(float _phValue) {
   }
   // Report if pH is below the minimum
   else if (phValue <= pHmin) {
-    return "Low pH";
+    return "0xPHx1";
   }
 }
 
 
 // EC logic
-String macs_dose::balanceEc(float _ecValue) {
+char* macs_dose::balanceEc(float _ecValue) {
   ecValue = _ecValue;
 
 // If EC is below the minimum,
@@ -100,20 +102,20 @@ String macs_dose::balanceEc(float _ecValue) {
       if (!pumpTwoStatus && !pumpThreeStatus) {
         startPumpTwo();
         startPumpThree();
-        return "P2,3: ON";
+        return "0xECx1";
       }
       else {
         stopPumpTwo();
         stopPumpThree();
-        return "P2,3: OFF";
+        return "0xECx0";
       }
     }
     // Report the pump status
     else if (pumpTwoStatus && pumpThreeStatus) {
-      return "P2,3: ON";
+      return "0xECx1";
     }
     else if (!pumpTwoStatus && !pumpThreeStatus) {
-      return "P2,3: OFF";
+      return "0xECx0";
     }
   }
 // If ec is in the optimal range, stop the pump
@@ -121,33 +123,33 @@ String macs_dose::balanceEc(float _ecValue) {
     pumpTwoTimer = 0;
     stopPumpTwo();
     stopPumpThree();
-    return "P2,3: OFF";
+    return "0xECx0";
   }
 // Report if ec is above the minimum
   else if (ecValue >= ecMax) {
-    return "High EC";
+    return "0xECx2";
   }
 }
 
 
-String macs_dose::startPumpOne() {
+char* macs_dose::startPumpOne() {
   if (!pumpOneStatus) {
     startPump(pumpOne12EnablePin, &pumpOne12EnablePinStatus,
               pumpOne1Apin, &pumpOne1ApinStatus,
               pumpOne2Apin, &pumpOne2ApinStatus,
               &pumpOneStatus, 1);
   }
-  return "P1: ON";
+  return "0xP1x1";
 }
 
-String macs_dose::stopPumpOne() {
+char* macs_dose::stopPumpOne() {
   if (pumpOneStatus) {
     stopPump(pumpOne12EnablePin, &pumpOne12EnablePinStatus,
              pumpOne1Apin, &pumpOne1ApinStatus,
              pumpOne2Apin, &pumpOne2ApinStatus,
              &pumpOneStatus, 1);
   }
-  return "P1: OFF";
+  return "0xP1x0";
 }
 
 
@@ -158,7 +160,7 @@ String macs_dose::startPumpTwo() {
               pumpTwo4Apin, &pumpTwo4ApinStatus,
               &pumpTwoStatus, 2);
   }
-  return "P2: ON";
+  return "0xP2x1";
 }
 
 
@@ -169,7 +171,7 @@ String macs_dose::stopPumpTwo() {
              pumpTwo4Apin, &pumpTwo4ApinStatus,
              &pumpTwoStatus, 2);
   }
-  return "P2: OFF";
+  return "0xP2x0";
 }
 
 
@@ -180,7 +182,7 @@ String macs_dose::startPumpThree() {
               pumpThree2Apin, &pumpThree2ApinStatus,
               &pumpThreeStatus, 3);
   }
-  return "P3: ON";
+  return "0xP3x1";
 }
 
 
@@ -191,7 +193,7 @@ String macs_dose::stopPumpThree() {
              pumpThree2Apin, &pumpThree2ApinStatus,
              &pumpThreeStatus, 3);
   }
-  return "P3: OFF";
+  return "0xP3x0";
 }
 
 
@@ -204,10 +206,7 @@ void macs_dose::startPump(int enablePin, bool* enablePinVar,
                           int secondPin, bool* secondPinVar,
                           bool* pumpStatus, int pumpNumber) {
 
-  Serial.print(millis() / 1000.0, 3);
-  Serial.print(" : P");
-  Serial.print(pumpNumber);
-  Serial.println(" is switched ON");
+
 
   digitalWrite(enablePin, HIGH);
   *enablePinVar = true;
@@ -219,6 +218,21 @@ void macs_dose::startPump(int enablePin, bool* enablePinVar,
   *secondPinVar = false;
 
   *pumpStatus = true;
+
+
+  Serial.print(millis() / 1000.0, 3);
+  Serial.print(" : ");
+  switch (pumpNumber) {
+  case 1:
+    Serial.println(resource.getText("0xP1x11"));
+    break;
+  case 2:
+    Serial.println(resource.getText("0xP2x11"));
+    break;
+  case 3:
+    Serial.println(resource.getText("0xP3x11"));
+    break;
+  }
 }
 
 
@@ -227,11 +241,6 @@ void macs_dose::stopPump(int enablePin, bool* enablePinVar,
                          int firstPin, bool* firstPinVar,
                          int secondPin, bool* secondPinVar,
                          bool* pumpStatus, int pumpNumber) {
-
-  Serial.print(millis() / 1000.0, 3);
-  Serial.print(" : P");
-  Serial.print(pumpNumber);
-  Serial.println(" is switched OFF");
 
   digitalWrite(enablePin, LOW);
   *enablePinVar = false;
@@ -243,6 +252,21 @@ void macs_dose::stopPump(int enablePin, bool* enablePinVar,
   *secondPinVar = true;
 
   *pumpStatus = false;
+
+  
+  Serial.print(millis() / 1000.0, 3);
+  Serial.print(" : ");
+  switch (pumpNumber) {
+  case 1:
+    Serial.println(resource.getText("0xP1x00"));
+    break;
+  case 2:
+    Serial.println(resource.getText("0xP2x00"));
+    break;
+  case 3:
+    Serial.println(resource.getText("0xP3x00"));
+    break;
+  }
 }
 
 // -------------------- Test Functions --------------------//

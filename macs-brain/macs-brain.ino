@@ -13,7 +13,8 @@
 #include "macs_ec.h"
 #include "macs_dose.h"
 #include "macs_temperature.h"
-#include "macs_api.h"  
+#include "macs_api.h"
+#include "macs_resource.h"
 
 // Declarations
 #define serial_baud_rate 115200
@@ -26,6 +27,7 @@ macs_ec ec_meter;
 macs_temperature temperature_meter;
 macs_dose dosing;
 macs_api api;
+macs_resource res;
 
 
 // Setup
@@ -45,19 +47,22 @@ void setup() {
 // ISR
 void sensingRoutine(void)
 {
-  float temperature = temperature_meter.getTemperature();
-  api.sendTemp(temperature);
-  lcd_display.showTemperature(temperature);
+  // float temperature = temperature_meter.getTemperature();
+  // api.sendTemp(temperature);
+  // lcd_display.showTemperature(temperature);
 
-  float ecValue = ec_meter.getEc(temperature);
-  api.sendEc(ecValue);
-  lcd_display.showEc(ecValue);
-  lcd_display.showMsg(dosing.balanceEc(ecValue));
+  // float ecValue = ec_meter.getEc(temperature);
+  // api.sendEc(ecValue);
+  // lcd_display.showEc(ecValue);
+  // lcd_display.showMsg(dosing.balanceEc(ecValue));
 
-  float phValue = ph_meter.getPh();
-  api.sendPh(phValue);
-  lcd_display.showPh(phValue);
-  lcd_display.showMsg(dosing.balancePh(phValue));
+  // float phValue = ph_meter.getPh();
+  // api.sendPh(phValue);
+  // lcd_display.showPh(phValue);
+  // lcd_display.showMsg(dosing.balancePh(phValue));
+
+  lcd_display.showMsg(res.getText(dosing.balanceEc(1100)));
+  lcd_display.showMsg(res.getText(dosing.balancePh(6.6)));
 
   //  lcd_display.showMsg(dosing.testPump(1, 10));
   Serial.println("");
