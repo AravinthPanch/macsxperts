@@ -52,17 +52,17 @@ webSocket.on("connection", function (browserSocket) {
 
 
 	oscSocket.send({
-		address: "/ph/",
+		address: "/sense/ph/",
 		args: 5.8
 	});
 
 	oscSocket.send({
-		address: "/ec/",
+		address: "/sense/ec/",
 		args: 1200
 	});
 
 	oscSocket.send({
-		address: "/temp/",
+		address: "/sense/temp/",
 		args: 25.5
 	});
 });

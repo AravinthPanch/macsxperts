@@ -18,9 +18,14 @@ class macs_api
   private:
 
   public:
+    // Constructor
     macs_api();
-    void send(float value, OSCMessage *msg);
+
+    void sendFloat(float value, OSCMessage *msg);
+    void sendInt(int value, OSCMessage *msg);
+    
     void sendPh(float phValue);
     void sendEc(float ecValue);
     void sendTemp(float tempValue);
+    void sendPump(int pumpNumber, int status);
 };
