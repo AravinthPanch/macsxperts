@@ -38,33 +38,27 @@ void setup() {
     Serial.println("==== Macsxperts Vertical Farming ====");
   }
   Timer1.initialize(timer1_interval);
-  Timer1.attachInterrupt(sensingRoutine);
-
-  //  dosing.setTestPumpStatus(true);
+  Timer1.attachInterrupt(sensingRoutine);  
 }
 
 
 // ISR
 void sensingRoutine(void)
 {
-  // float temperature = temperature_meter.getTemperature();
-  // api.sendTemp(temperature);
-  // lcd_display.showTemperature(temperature);
+  float temperature = temperature_meter.getTemperature();
+  api.sendTemp(temperature);
+  lcd_display.showTemperature(temperature);
 
-  // float ecValue = ec_meter.getEc(temperature);
-  // api.sendEc(ecValue);
-  // lcd_display.showEc(ecValue);
-  // lcd_display.showMsg(dosing.balanceEc(ecValue));
+  float ecValue = ec_meter.getEc(temperature);
+  api.sendEc(ecValue);
+  lcd_display.showEc(ecValue);
+  lcd_display.showMsg(dosing.balanceEc(ecValue));
 
-  // float phValue = ph_meter.getPh();
-  // api.sendPh(phValue);
-  // lcd_display.showPh(phValue);
-  // lcd_display.showMsg(dosing.balancePh(phValue));
-
-  lcd_display.showMsg(res.getText(dosing.balanceEc(1100)));
-  lcd_display.showMsg(res.getText(dosing.balancePh(6.6)));
-
-  //  lcd_display.showMsg(dosing.testPump(1, 10));
+  float phValue = ph_meter.getPh();
+  api.sendPh(phValue);
+  lcd_display.showPh(phValue);
+  lcd_display.showMsg(dosing.balancePh(phValue));
+  
   Serial.println("");
 }
 
