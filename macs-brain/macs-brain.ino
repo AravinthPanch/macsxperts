@@ -52,12 +52,12 @@ void sensingRoutine(void)
   float ecValue = ec_meter.getEc(temperature);
   api.sendEc(ecValue);
   lcd_display.showEc(ecValue);
-  lcd_display.showMsg(dosing.balanceEc(ecValue));
+  lcd_display.showMsg(res.getText(dosing.balanceEc(ecValue)));
 
   float phValue = ph_meter.getPh();
   api.sendPh(phValue);
   lcd_display.showPh(phValue);
-  lcd_display.showMsg(dosing.balancePh(phValue));
+  lcd_display.showMsg(res.getText(dosing.balancePh(phValue)));
   
   Serial.println("");
 }
