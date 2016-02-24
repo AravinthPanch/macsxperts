@@ -8,7 +8,7 @@
 # - Persist the Reverse SSH Tunnel to serve Big Brother Nodejs Server
 ##############################################################
 
-/bin/pidof ssh
+PID="$(ps aux | grep '3000:localhost:3000' | grep -v grep | awk '{print $2}')"
 
 if [[ $? -ne 0 ]]; then
   echo "Creating new Reverse SSH-HTTP Tunnel"

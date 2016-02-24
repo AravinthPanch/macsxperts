@@ -11,7 +11,8 @@
 
 #include <LiquidCrystal.h>
 
-LiquidCrystal lcd(29, 27, 37, 35, 33, 31);           // select the pins used on the LCD panel
+//LiquidCrystal lcd(29, 27, 37, 35, 33, 31); 
+LiquidCrystal lcd(8, 9, 4, 5, 6, 7);  // select the pins used on the LCD panel
 
 // define some values used by the panel and buttons
 int lcd_key     = 0;
@@ -25,7 +26,8 @@ int adc_key_in  = 0;
 #define btnNONE   5
 
 int read_LCD_buttons() {              // read the buttons
-  adc_key_in = analogRead(2);       // read the value from the sensor
+//  adc_key_in = analogRead(2);
+  adc_key_in = analogRead(0); // read the value from the sensor
 
   // my buttons when read are centered at these valies: 0, 144, 329, 504, 741
   // we add approx 50 to those values and check to see if we are close
