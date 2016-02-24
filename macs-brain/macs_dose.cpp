@@ -25,6 +25,10 @@ macs_dose::macs_dose() {
   pinMode(pumpThree12EnablePin, OUTPUT);
   pinMode(pumpThree1Apin, OUTPUT);
   pinMode(pumpThree2Apin, OUTPUT);
+
+  pinMode(pumpFour34EnablePin, OUTPUT);
+  pinMode(pumpFour3Apin, OUTPUT);
+  pinMode(pumpFour4Apin, OUTPUT);
 }
 
 // Return status of the pump
@@ -40,6 +44,11 @@ bool macs_dose::getPumpTwoStatus() {
 // Return status of the pump
 bool macs_dose::getPumpThreeStatus() {
   return pumpThreeStatus;
+}
+
+// Return status of the pump
+bool macs_dose::getPumpFourStatus() {
+  return pumpFourStatus;
 }
 
 // pH Logic
@@ -79,6 +88,7 @@ char* macs_dose::balancePh(float _phValue) {
   }
   // Report if pH is below the minimum
   else if (phValue <= pHmin) {
+    stopPumpOne();
     return "0xPHx1";
   }
 }
@@ -102,11 +112,13 @@ char* macs_dose::balanceEc(float _ecValue) {
       if (!pumpTwoStatus && !pumpThreeStatus) {
         startPumpTwo();
         startPumpThree();
+        startPumpFour();
         return "0xECx1";
       }
       else {
         stopPumpTwo();
         stopPumpThree();
+        stopPumpFour();
         return "0xECx0";
       }
     }
@@ -123,10 +135,14 @@ char* macs_dose::balanceEc(float _ecValue) {
     pumpTwoTimer = 0;
     stopPumpTwo();
     stopPumpThree();
+    stopPumpFour();
     return "0xECx0";
   }
 // Report if ec is above the minimum
   else if (ecValue >= ecMax) {
+    stopPumpTwo();
+    stopPumpThree();
+    stopPumpFour();
     return "0xECx2";
   }
 }
@@ -197,6 +213,27 @@ String macs_dose::stopPumpThree() {
 }
 
 
+String macs_dose::startPumpFour() {
+  if (!pumpFourStatus) {
+    startPump(pumpFour34EnablePin, &pumpFour34EnablePinStatus,
+              pumpFour3Apin, &pumpFour3ApinStatus,
+              pumpFour4Apin, &pumpFour4ApinStatus,
+              &pumpFourStatus, 4);
+  }
+  return "0xP4x1";
+}
+
+String macs_dose::stopPumpFour() {
+  if (pumpFourStatus) {
+    stopPump(pumpFour34EnablePin, &pumpFour34EnablePinStatus,
+             pumpFour3Apin, &pumpFour3ApinStatus,
+             pumpFour4Apin, &pumpFour4ApinStatus,
+             &pumpFourStatus, 4);
+  }
+  return "0xP4x0";
+}
+
+
 // -------------------- Drive Motors --------------------//
 
 // Drive pump in clockwise direction (Pump is connected as upper connector
@@ -232,6 +269,9 @@ void macs_dose::startPump(int enablePin, bool* enablePinVar,
   case 3:
     Serial.println(resource.getText("0xP3x11"));
     break;
+  case 4:
+    Serial.println(resource.getText("0xP4x11"));
+    break;
   }
 }
 
@@ -265,6 +305,9 @@ void macs_dose::stopPump(int enablePin, bool* enablePinVar,
     break;
   case 3:
     Serial.println(resource.getText("0xP3x00"));
+    break;
+  case 4:
+    Serial.println(resource.getText("0xP4x00"));
     break;
   }
 }

@@ -22,6 +22,10 @@
 #define pumpThree1Apin 30
 #define pumpThree2Apin 44
 
+#define pumpFour34EnablePin 46
+#define pumpFour3Apin 48
+#define pumpFour4Apin 26
+
 #define pHmin 5.5
 #define pHmax 6.5
 #define ecMin 1200
@@ -54,6 +58,12 @@ private:
   bool pumpThree2ApinStatus = false;
   bool pumpThreeStatus = false;
 
+  // Pump Four Pin Status
+  bool pumpFour34EnablePinStatus = false;
+  bool pumpFour3ApinStatus = false;
+  bool pumpFour4ApinStatus = false;
+  bool pumpFourStatus = false;
+
   // pH Down Pump
   int pumpOneTimer = 0;
 
@@ -62,6 +72,9 @@ private:
 
   // EC: Nutrient B Pump
   int pumpThreeTimer = 0;
+
+  // EC: Nutrient C Pump
+  int pumpFourTimer = 0;
 
   // Test Function
   int testPumpTimer = 1;
@@ -90,6 +103,10 @@ private:
   String startPumpThree();
   String stopPumpThree();
 
+  // Pump Four
+  String startPumpFour();
+  String stopPumpFour();
+
 public:
   // Constructor
   macs_dose();
@@ -98,6 +115,7 @@ public:
   bool getPumpOneStatus();
   bool getPumpTwoStatus();
   bool getPumpThreeStatus();
+  bool getPumpFourStatus();
 
   // EC & pH balance logic
   char* balancePh(float phValue);
