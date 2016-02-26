@@ -13,17 +13,23 @@
 float macs_ec::getEc(float temperature) {
   static float ecValue, ecVoltage;
   for (int i = 0; i < ecArrayLenth ; i ++) {
-    ecArray[ecArrayIndex++]  = analogRead(ecSensorPin);
+
+    float enAnalog = analogRead(ecSensorPin);
+
+    // Serial.print(millis() / 1000.0, 3);
+    // Serial.print(" : ");
+    // Serial.print("ecAnalogVoltage: ");
+    // Serial.println(enAnalog);
+
+    ecArray[ecArrayIndex++]  = enAnalog;
   }
   ecArrayIndex = 0;
   ecVoltage = ecArrayAverage(ecArray, ecArrayLenth) * 5000 / 1024;
 
-  // Serial.print(millis() / 1000.0, 3);
-  // Serial.print(" : ");
-  // Serial.print("ecVoltage: ");
-  // Serial.print(ecVoltage);
-  // Serial.print(" temperature: ");
-  // Serial.print(temperature);
+  Serial.print(millis() / 1000.0, 3);
+  Serial.print(" : ");
+  Serial.print("ecVoltage: ");
+  Serial.println(ecVoltage);
 
   float tempCoefficient = 1.0 + 0.0185 * (temperature - 25.0);
   float coefficientVoltage = (float)ecVoltage / tempCoefficient;
@@ -32,7 +38,7 @@ float macs_ec::getEc(float temperature) {
 
   if (coefficientVoltage < 150 || coefficientVoltage > 3300 )
   {
-    // 25'C 1413us/cm<-->about 216mv  
+    // 25'C 1413us/cm<-->about 216mv
     // if the voltage(compensate)<150,that is <1ms/cm,out of the range
     //>20ms/cm,out of the range
     Serial.print(millis() / 1000.0, 3);

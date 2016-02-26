@@ -30,7 +30,7 @@
 #define pHmax 6.5
 #define ecMin 1200
 #define ecMax 1600
-#define phDosingInterval 5
+#define phDosingInterval 1
 #define ecDosingInterval 5
 
 class macs_dose
