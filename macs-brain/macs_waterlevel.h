@@ -1,26 +1,28 @@
-/*
- * macs_waterlevel.h
- *
- *  Created on: May 24, 2016
- *      Author: ganesh
- */
+/**
+   Author:
+   Email:
+   Date: 30/05/16.
+   Project: Macsxperts Vertical Farming Solutions
+   Description: Water Level Measurement using Float Switch
+*/
+
+// Libraries
 #include "Arduino.h"
+
+// Declarations
+//TODO: Choose free GPIO pins of the controller. 
 #define floatSwitch1pin 2
 #define floatSwitch2pin 3
 #define floatSwitch3pin 4
 #define floatSwitch4pin 5
-#define ledpin1 9
-#define ledpin2 10
-#define ledpin3 11
-#define ledpin4 12
 
-
-class macs_waterlevel{
+class macs_waterlevel
+{
 private:
-	bool ledpin1status = false;
-	bool ledpin2status = false;
-	bool ledpin3status = false;
-	bool ledpin4status = false;
+  bool floatSwitch1Status = false;
+  bool floatSwitch2Status = false;
+  bool floatSwitch3Status = false;
+  bool floatSwitch4Status = false;
 
 public:
   // Constructor
