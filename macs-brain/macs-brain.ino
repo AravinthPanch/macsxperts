@@ -16,6 +16,7 @@
 #include "macs_api.h"
 #include "macs_resource.h"
 
+
 // Declarations
 #define serial_baud_rate 115200
 // Timer1 interval 1sec => 1000000 microsec
@@ -29,6 +30,9 @@ macs_dose dosing;
 macs_api api;
 macs_resource res;
 
+int pinButton = 8; //the pin where we connect the button
+int LED = 2; //the pin we connect the LED
+
 
 // Setup
 void setup() {
@@ -39,6 +43,10 @@ void setup() {
   }
   Timer1.initialize(timer1_interval);
   Timer1.attachInterrupt(sensingRoutine);  
+
+  pinMode(pinButton, INPUT); //set the button pin as INPUT
+  pinMode(LED, OUTPUT); //set the LED pin as OUTPUT
+
 }
 
 
@@ -65,4 +73,11 @@ void sensingRoutine(void)
 
 // Main Loop
 void loop() {
+     digitalWrite(LED, LOW);  //write 0 or low to led pin
+  int stateButton = digitalRead(pinButton); //read the state of the button
+  if(stateButton == 1) { //if is pressed
+     digitalWrite(LED, HIGH); //write 1 or HIGH to led pin
+  } else { //if not pressed
+     digitalWrite(LED, LOW);  //write 0 or low to led pin
+  }
 }
