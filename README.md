@@ -1,29 +1,5 @@
-# README #
+<img src="images/logo@2x.png" alt="Macsxperts Aeroponics, Hydroponics Farming Solutions in Bengaluru"/>
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Macsxperts provides Vertical Farming solutions to produce sustainable, healthy and fresh vegetables, fruits and flowers with less labour work.
 
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+<img src="images/macsxperts-india-hydroponic-kitchen-farm-banner.jpg" alt="Macsxperts Aeroponics, Hydroponics Farming Solutions in Bengaluru"/>
